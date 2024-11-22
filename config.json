@@ -1,0 +1,6 @@
+{
+    "max_entries": 300,
+    "check_in_days_ahead": 30,
+    "stay_duration": 7,
+    "delay": 2
+}
