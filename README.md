@@ -9,3 +9,6 @@ After the script successfully completes, check out the data directory for the ex
 ## Notes
 I noticed that sometimes the script gets locked, simple scrolling downward helps the script continue.
 Maybe it can't locate the button "Load more" because it isn't rendered yet.
+
+## Don'ts
+- Don't enter empty lines in locations.txt (check the last line)
