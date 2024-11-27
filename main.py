@@ -83,13 +83,26 @@ for place in places:
     date_element = driver.find_element(By.XPATH, '//*[@data-testid="date-display-field-start"]').click()
     time.sleep(config["delay"])
 
-    start_day = driver.find_element(By.XPATH, f"//*[@aria-label=\"{start_date.strftime('%d %B %Y')}\"]")
-    ActionChains(driver).move_to_element(start_day).click().perform()
-    time.sleep(config["delay"])
+    try:
+        start_day = driver.find_element(By.XPATH, f"//*[@aria-label=\"{start_date.strftime('%d %B %Y').lstrip('0')}\"]")
+        ActionChains(driver).move_to_element(start_day).click().perform()
+        time.sleep(config["delay"])
+    except:
+        next_month = driver.find_element(By.XPATH, '//*[@aria-label="Next month"]').click()
+        start_day = driver.find_element(By.XPATH, f"//*[@aria-label=\"{start_date.strftime('%d %B %Y').lstrip('0')}\"]")
+        ActionChains(driver).move_to_element(start_day).click().perform()
+        time.sleep(config["delay"])
 
-    end_day = driver.find_element(By.XPATH, f"//*[@aria-label=\"{end_date.strftime('%d %B %Y')}\"]")
-    ActionChains(driver).move_to_element(end_day).click().perform()
-    time.sleep(config["delay"])
+    try:
+        end_day = driver.find_element(By.XPATH, f"//*[@aria-label=\"{end_date.strftime('%d %B %Y').lstrip('0')}\"]")
+        ActionChains(driver).move_to_element(end_day).click().perform()
+        time.sleep(config["delay"])
+    except:
+        next_month = driver.find_element(By.XPATH, '//*[@aria-label="Next month"]').click()
+        end_day = driver.find_element(By.XPATH, f"//*[@aria-label=\"{end_date.strftime('%d %B %Y').lstrip('0')}\"]")
+        ActionChains(driver).move_to_element(end_day).click().perform()
+        time.sleep(config["delay"])
+
 
     # click ze button
     search_btn = driver.find_element(By.XPATH, '//*[@class="a83ed08757 c21c56c305 a4c1805887 f671049264 a2abacf76b c082d89982 cceeb8986b b9fd3c6b3c"]').click()
@@ -153,7 +166,7 @@ start_date_str = start_date.strftime('%d_%B_%Y')
 for p in places:
     data_locations = pd.DataFrame(entries[p], columns=['Name', 'Link', 'Price', 'Rating', 'Location'])
     data_locations.drop_duplicates()
-    print(f"{p} {df.shape[0]}") # number of rows without duplicates
+    print(f"{p}        {data_locations.shape[0]}") # number of rows without duplicates
     try:
         with pd.ExcelWriter(f'data/{p}_{start_date_str}.xlsx', mode='a') as writer:
             data_locations.to_excel(writer, sheet_name=place)
