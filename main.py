@@ -35,7 +35,7 @@ with open("config.json", "r") as file:
     config = json.load(file)
 
 # take places from file
-with open("locations.txt", "r") as file:
+with open("locations.txt", "r", encoding="utf-8") as file:
     places = [line.strip().lower() for line in file]
 
 # store the location data here
